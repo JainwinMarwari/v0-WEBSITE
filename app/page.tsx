@@ -1,3 +1,18 @@
+"use client";
+
+// Add at the top of the file
+import { Button } from "@/components/ui/button";
+import { Input, Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+
+// Add this component inside your existing page component
+function SubscribeButton() {
+  // ... [paste the entire SubscribeButton code from previous steps]
+}
+
+// Then use it in your JSX:
+<SubscribeButton />
 import Link from "next/link"
 import { ArrowUpRight, BarChart3, BookOpen, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
