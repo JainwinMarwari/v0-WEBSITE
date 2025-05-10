@@ -141,7 +141,7 @@ export default function Home() {
           <p className="text-sm text-muted-foreground">© 2025 Jainwin Marwari. All rights reserved.</p>
           <div className="flex gap-4">
             <Link 
-  href="https://www.linkedin.com/in/harsh-jain-7a9b39243/" 
+  href="https://www.linkedin.com/in/harshandfinance" 
   className="text-sm font-medium transition-colors hover:text-primary"
   target="_blank"
   rel="noopener noreferrer"
@@ -160,7 +160,7 @@ export default function Home() {
   href="mailto:jainwinmarwari@gmail.com" 
   className="text-sm font-medium transition-colors hover:text-primary"
 >
-  Contact
+  jainwinmarwari@gmail.com
 </Link>
           </div>
         </div>
