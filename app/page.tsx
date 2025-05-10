@@ -43,9 +43,7 @@ export default function Home() {
               About
             </Link>
           </nav>
-          <Button variant="outline" size="sm" className="hidden md:flex">
-            Subscribe
-          </Button>
+          <SubscribeButton className="hidden md:flex" />
         </div>
       </header>
       <main className="flex-1">
