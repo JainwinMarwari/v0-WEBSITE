@@ -140,17 +140,28 @@ export default function Home() {
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-sm text-muted-foreground">© 2025 Jainwin Marwari. All rights reserved.</p>
           <div className="flex gap-4">
-            <Link href="www.linkedin.com/in/harshandfinance
-
-" className="text-sm font-medium transition-colors hover:text-primary">
-              LinkedIn
-            </Link>
-            <Link href="https://x.com/Harshjain10__" className="text-sm font-medium transition-colors hover:text-primary">
-              Twitter
-            </Link>
-            <Link href="jainwinmarwari@gmail.com" className="text-sm font-medium transition-colors hover:text-primary">
-              Contact
-            </Link>
+            <Link 
+  href="https://www.linkedin.com/in/harsh-jain-7a9b39243/" 
+  className="text-sm font-medium transition-colors hover:text-primary"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  LinkedIn
+</Link>
+<Link 
+  href="https://x.com/Harshjain10__" 
+  className="text-sm font-medium transition-colors hover:text-primary"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Twitter
+</Link>
+<Link 
+  href="mailto:jainwinmarwari@gmail.com" 
+  className="text-sm font-medium transition-colors hover:text-primary"
+>
+  Contact
+</Link>
           </div>
         </div>
       </footer>
