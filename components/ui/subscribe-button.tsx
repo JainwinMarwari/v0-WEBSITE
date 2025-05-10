@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 
-export function SubscribeButton() {
+export function SubscribeButton({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -32,7 +32,11 @@ export function SubscribeButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className={className} // Preserves your existing classes
+        >
           Subscribe
         </Button>
       </DialogTrigger>
@@ -45,7 +49,7 @@ export function SubscribeButton() {
         <form onSubmit={handleSubscribe} className="space-y-4">
           <Input
             type="email"
-            placeholder="Your best email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
