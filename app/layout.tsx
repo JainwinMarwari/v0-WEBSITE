@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import type React from "react"
 import "@/app/globals.css"
 import { Inter } from "next/font/google"
@@ -22,6 +23,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )
