@@ -8,8 +8,9 @@ import { Footer } from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Jainwin Marwari - Finance Portfolio",
-  description: "Professional finance portfolio and investment insights by Jainwin Marwari",
+  title: "Jainwin Marwari - Portfolio Management Services",
+  description:
+    "Professional portfolio management and investment insights by Jainwin Marwari, CFA Level 2 cleared finance professional at DistrictD",
     generator: 'v0.dev'
 }
 
