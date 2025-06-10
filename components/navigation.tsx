@@ -2,17 +2,18 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { BarChart3, FileText, Home, User, Shield } from "lucide-react"
-import { useMobile } from "@/hooks/use-mobile"
+import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { useMobile } from "@/hooks/use-mobile"
+import { Button } from "@/components/ui/button"
+import { Home, BarChart3, FileText, User, Shield } from "lucide-react"
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: Home, shortName: "Home" },
-  { name: "Portfolio", href: "/portfolio", icon: BarChart3, shortName: "Portfolio" },
-  { name: "Blog", href: "/blog", icon: FileText, shortName: "Blog" },
-  { name: "About", href: "/about", icon: User, shortName: "About" },
-  { name: "Admin", href: "/admin", icon: Shield, shortName: "Admin" },
+  { name: "Dashboard", href: "/", icon: Home },
+  { name: "Portfolio", href: "/portfolio", icon: BarChart3 },
+  { name: "Blog", href: "/blog", icon: FileText },
+  { name: "About", href: "/about", icon: User },
+  { name: "Admin", href: "/admin", icon: Shield },
 ]
 
 export function Navigation() {
@@ -20,38 +21,35 @@ export function Navigation() {
   const isMobile = useMobile()
 
   return (
-    <div className="flex items-center gap-4">
-      <nav className={`flex ${isMobile ? "flex-wrap gap-1" : "space-x-2"}`}>
+    <nav className={`flex items-center ${isMobile ? "justify-between w-full" : "space-x-6"}`}>
+      <div className={`flex ${isMobile ? "space-x-2" : "space-x-6"}`}>
         {navigation.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
+
           return (
             <Button
               key={item.name}
               variant={isActive ? "default" : "ghost"}
-              asChild
-              className={`
-                flex items-center gap-2 transition-all duration-300 focus-ring rounded-lg
-                ${isMobile ? "text-xs px-3 py-2 h-9" : "px-4 py-2 h-10"}
-                ${
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-md hover:shadow-lg border border-primary/20"
-                    : "hover:bg-muted/60 hover:text-foreground hover:scale-105 border border-transparent hover:border-border/40"
-                }
-              `}
               size={isMobile ? "sm" : "default"}
+              asChild
+              className={cn(
+                "transition-all duration-200",
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "hover:bg-accent/50 hover:text-accent-foreground",
+                isMobile && "px-3",
+              )}
             >
-              <Link href={item.href}>
+              <Link href={item.href} className="flex items-center gap-2">
                 <Icon className="h-4 w-4" />
-                {isMobile ? item.shortName : item.name}
+                {!isMobile && <span>{item.name}</span>}
               </Link>
             </Button>
           )
         })}
-      </nav>
-      <div className="ml-2 border-l border-border/40 pl-4">
-        <ThemeToggle />
       </div>
-    </div>
+      <ThemeToggle />
+    </nav>
   )
 }

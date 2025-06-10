@@ -1,377 +1,352 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Navigation } from "@/components/navigation"
 import { Logo } from "@/components/logo"
-import { Button } from "@/components/ui/button"
-import {
-  ArrowUpRight,
-  TrendingUp,
-  DollarSign,
-  PieChart,
-  FileText,
-  Sparkles,
-  Target,
-  BarChart4,
-  Scale,
-  Users,
-  Award,
-  Shield,
-  Star,
-  Zap,
-  Brain,
-  Heart,
-} from "lucide-react"
-import Link from "next/link"
+import { FinancialDisclaimer } from "@/components/disclaimer"
 import { PerformanceDashboard } from "@/components/performance-dashboard"
+import { TrendingUp, Users, BarChart3, Target, ArrowRight, Shield, Award, Globe, Sparkles } from "lucide-react"
+import Link from "next/link"
+import { useMobile } from "@/hooks/use-mobile"
+import { useDataStore } from "@/lib/data-store"
 
-export default function Dashboard() {
+export default function HomePage() {
+  const isMobile = useMobile()
+  const { portfolioData } = useDataStore()
+
   return (
     <div className="min-h-screen bg-background">
-      <header className="glass-effect sticky top-0 z-50 border-b border-border/40">
+      <header className="border-b border-border glass-effect sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Logo />
-            <div className="hidden md:block">
-              <Navigation />
-            </div>
+            {!isMobile && <Navigation />}
           </div>
         </div>
       </header>
 
-      {/* Mobile Navigation */}
-      <div className="md:hidden glass-effect border-b border-border/40">
-        <div className="container mx-auto px-4 py-3">
-          <Navigation />
+      {isMobile && (
+        <div className="border-b border-border glass-effect">
+          <div className="container mx-auto px-4 py-2">
+            <Navigation />
+          </div>
         </div>
-      </div>
+      )}
 
-      <main className="container mx-auto px-4 section-spacing">
-        <div className="animate-fade-in content-spacing">
+      <main className="container mx-auto px-4 py-8">
+        <div className="space-y-16">
+          {/* Financial Disclaimer - Prominent placement */}
+          <div className="animate-fade-in">
+            <FinancialDisclaimer />
+          </div>
+
           {/* Hero Section */}
-          <Card className="premium-card-lg overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-blue-600/5 to-transparent opacity-60" />
-            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-500/8 to-transparent rounded-full blur-3xl animate-float" />
-            <CardHeader className="relative pb-6">
-              <div className="flex items-start gap-6">
-                <div className="p-4 royal-accent rounded-2xl hover-glow animate-scale-in">
-                  <Sparkles className="h-10 w-10 text-white animate-glow" />
-                </div>
-                <div className="flex-1 space-y-4">
-                  <CardTitle className="text-4xl md:text-6xl font-bold text-balance">
-                    <span className="gradient-text">Welcome to Jainwin Marwari</span>
-                  </CardTitle>
-                  <CardDescription className="text-lg md:text-xl text-premium-muted max-w-3xl">
-                    CFA Level 2 cleared finance professional specializing in Portfolio Management Services (PMS) and
-                    investment analysis. Building wealth through disciplined investing and superior risk-adjusted
-                    returns.
-                  </CardDescription>
-                </div>
+          <section className="text-center space-y-8 animate-fade-in">
+            <div className="space-y-6">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Sparkles className="h-8 w-8 text-primary animate-pulse" />
+                <span className="text-lg font-medium text-primary">Professional Portfolio Management</span>
+                <Sparkles className="h-8 w-8 text-primary animate-pulse" />
               </div>
-            </CardHeader>
-            <CardContent className="relative pt-0">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button asChild className="premium-button focus-ring">
-                  <Link href="/portfolio">
-                    View Portfolio <ArrowUpRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  asChild
-                  className="border-blue-200 hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 focus-ring hover-scale"
-                >
-                  <Link href="/about">
-                    About Me <ArrowUpRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
+                Jainwin Marwari
+              </h1>
+              <div className="space-y-2">
+                <p className="text-2xl md:text-3xl text-muted-foreground font-medium">
+                  CFA Level 2 Cleared • Portfolio Management Services
+                </p>
+                <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                  Professional investment management with a focus on long-term wealth creation, risk-adjusted returns,
+                  and disciplined investment strategies
+                </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="flex gap-6 justify-center flex-wrap">
+              <Button asChild size="lg" className="premium-button text-lg px-8 py-6">
+                <Link href="/portfolio">
+                  <BarChart3 className="mr-3 h-6 w-6" />
+                  View Portfolio Performance
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="hover-lift text-lg px-8 py-6 border-primary/30 hover:bg-primary/5"
+              >
+                <Link href="/about">
+                  <Users className="mr-3 h-6 w-6" />
+                  Learn About Our Approach
+                </Link>
+              </Button>
+            </div>
+          </section>
 
-          {/* Investment Philosophy */}
-          <Card className="premium-card-lg">
-            <CardHeader className="pb-8">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 ocean-accent rounded-xl">
-                  <Brain className="h-7 w-7 text-white" />
+          {/* Quick Stats with Enhanced Design */}
+          <section className="grid gap-6 md:grid-cols-4 animate-slide-up">
+            <Card className="premium-card text-center hover-lift bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+              <CardContent className="pt-8 pb-6">
+                <div className="text-4xl font-bold text-primary mb-3">
+                  ₹{(portfolioData.totalValue / 100000).toFixed(1)}L
                 </div>
-                <div>
-                  <CardTitle className="text-3xl font-bold text-balance">Investment Philosophy</CardTitle>
-                  <CardDescription className="text-lg text-premium-muted mt-2">
-                    A disciplined approach to wealth creation through quality investments and rigorous analysis
-                  </CardDescription>
+                <p className="text-sm text-muted-foreground font-medium">Portfolio Value</p>
+                <div className="mt-2 text-xs text-primary/70">Current Holdings</div>
+              </CardContent>
+            </Card>
+            <Card className="premium-card text-center hover-lift bg-gradient-to-br from-emerald-500/5 to-emerald-500/10 border-emerald-500/20">
+              <CardContent className="pt-8 pb-6">
+                <div className="text-4xl font-bold text-emerald-600 mb-3">
+                  +{portfolioData.returnPercentage.toFixed(1)}%
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-10">
-              <div className="grid gap-8 md:grid-cols-3">
-                <div className="space-y-4 group animate-slide-up">
-                  <div className="flex items-center gap-4">
-                    <div className="p-4 royal-accent rounded-xl group-hover:scale-110 transition-transform duration-300">
-                      <Target className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-xl text-premium">Investment Focus</h3>
-                  </div>
-                  <p className="text-premium-muted leading-relaxed">
-                    We focus on micro, small, and mid-cap Indian stocks over a 3–5 year horizon with strong
-                    fundamentals, ethical management, and sustainable competitive advantages.
-                  </p>
-                </div>
-
-                <div className="space-y-4 group animate-slide-up" style={{ animationDelay: "0.1s" }}>
-                  <div className="flex items-center gap-4">
-                    <div className="p-4 sky-accent rounded-xl group-hover:scale-110 transition-transform duration-300">
-                      <BarChart4 className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-xl text-premium">Portfolio Strategy</h3>
-                  </div>
-                  <p className="text-premium-muted leading-relaxed">
-                    Hybrid approach: 30% Value, 30% Growth, 40% Quality. Concentrated portfolio of 15-20 high-conviction
-                    ideas with rigorous risk management.
-                  </p>
-                </div>
-
-                <div className="space-y-4 group animate-slide-up" style={{ animationDelay: "0.2s" }}>
-                  <div className="flex items-center gap-4">
-                    <div className="p-4 teal-accent rounded-xl group-hover:scale-110 transition-transform duration-300">
-                      <Scale className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-xl text-premium">Sell Discipline</h3>
-                  </div>
-                  <p className="text-premium-muted leading-relaxed">
-                    Low turnover approach focusing on compounding wealth through time rather than frequent trading.
-                    Systematic exit criteria based on fundamentals.
-                  </p>
-                </div>
-              </div>
-
-              {/* Strategy Visualization - Premium Blue Theme */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-                <div className="premium-card text-center p-8 hover-lift bg-gradient-to-br from-blue-500/5 to-blue-600/10 border-blue-500/20">
-                  <div className="p-4 bg-blue-500/20 rounded-full w-fit mx-auto mb-6">
-                    <Star className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <h4 className="font-bold text-blue-600 text-lg mb-3">Value</h4>
-                  <div className="text-4xl font-bold text-blue-600 mb-3">30%</div>
-                  <p className="text-sm text-premium-muted">Undervalued with catalysts</p>
-                </div>
-
-                <div className="premium-card text-center p-8 hover-lift bg-gradient-to-br from-teal-500/5 to-teal-600/10 border-teal-500/20">
-                  <div className="p-4 bg-teal-500/20 rounded-full w-fit mx-auto mb-6">
-                    <Zap className="h-8 w-8 text-teal-600" />
-                  </div>
-                  <h4 className="font-bold text-teal-600 text-lg mb-3">Growth</h4>
-                  <div className="text-4xl font-bold text-teal-600 mb-3">30%</div>
-                  <p className="text-sm text-premium-muted">Scalable with momentum</p>
-                </div>
-
-                <div className="premium-card text-center p-8 hover-lift bg-gradient-to-br from-indigo-500/5 to-indigo-600/10 border-indigo-500/20">
-                  <div className="p-4 bg-indigo-500/20 rounded-full w-fit mx-auto mb-6">
-                    <Award className="h-8 w-8 text-indigo-600" />
-                  </div>
-                  <h4 className="font-bold text-indigo-600 text-lg mb-3">Quality</h4>
-                  <div className="text-4xl font-bold text-indigo-600 mb-3">40%</div>
-                  <p className="text-sm text-premium-muted">High ROCE, strong promoters</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                <p className="text-sm text-muted-foreground font-medium">Total Returns</p>
+                <div className="mt-2 text-xs text-emerald-600/70">Since Inception</div>
+              </CardContent>
+            </Card>
+            <Card className="premium-card text-center hover-lift bg-gradient-to-br from-purple-500/5 to-purple-500/10 border-purple-500/20">
+              <CardContent className="pt-8 pb-6">
+                <div className="text-4xl font-bold text-purple-600 mb-3">{portfolioData.cagr}%</div>
+                <p className="text-sm text-muted-foreground font-medium">CAGR</p>
+                <div className="mt-2 text-xs text-purple-600/70">Annualized Return</div>
+              </CardContent>
+            </Card>
+            <Card className="premium-card text-center hover-lift bg-gradient-to-br from-blue-500/5 to-blue-500/10 border-blue-500/20">
+              <CardContent className="pt-8 pb-6">
+                <div className="text-4xl font-bold text-blue-600 mb-3">{portfolioData.sharpeRatio}</div>
+                <p className="text-sm text-muted-foreground font-medium">Sharpe Ratio</p>
+                <div className="mt-2 text-xs text-blue-600/70">Risk-Adjusted Returns</div>
+              </CardContent>
+            </Card>
+          </section>
 
           {/* Performance Dashboard */}
-          <PerformanceDashboard />
+          <section className="animate-slide-up">
+            <PerformanceDashboard />
+          </section>
 
-          {/* Quick Stats - Premium Blue Theme */}
-          <div className="grid gap-6 grid-cols-2 lg:grid-cols-4">
-            <Card className="premium-card hover-glow bg-gradient-to-br from-blue-500/5 to-blue-600/10 border-blue-500/30">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium text-blue-600">Total Portfolio Value</CardTitle>
-                <DollarSign className="h-5 w-5 text-blue-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl md:text-3xl font-bold text-blue-600 mb-2">₹14,39,376</div>
-                <p className="text-xs text-emerald-600 font-medium">+25.3% total return</p>
-              </CardContent>
-            </Card>
+          {/* Investment Strategy Section */}
+          <section className="space-y-8 animate-slide-up">
+            <div className="text-center space-y-4">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Investment Strategy
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                A disciplined approach combining value, growth, and quality investing principles
+              </p>
+            </div>
 
-            <Card className="premium-card hover-glow bg-gradient-to-br from-teal-500/5 to-teal-600/10 border-teal-500/30">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium text-teal-700 dark:text-teal-300">CAGR</CardTitle>
-                <TrendingUp className="h-5 w-5 text-teal-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl md:text-3xl font-bold text-teal-600 mb-2">28.9%</div>
-                <p className="text-xs text-premium-muted">Annualized return</p>
-              </CardContent>
-            </Card>
-
-            <Card className="premium-card hover-glow bg-gradient-to-br from-indigo-500/5 to-indigo-600/10 border-indigo-500/30">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
-                  Active Positions
-                </CardTitle>
-                <PieChart className="h-5 w-5 text-indigo-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl md:text-3xl font-bold text-indigo-600 mb-2">5</div>
-                <p className="text-xs text-premium-muted">Concentrated portfolio</p>
-              </CardContent>
-            </Card>
-
-            <Card className="premium-card hover-glow bg-gradient-to-br from-slate-500/5 to-slate-600/10 border-slate-500/30">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Sharpe Ratio</CardTitle>
-                <Award className="h-5 w-5 text-slate-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl md:text-3xl font-bold text-slate-600 mb-2">1.85</div>
-                <p className="text-xs text-premium-muted">Risk-adjusted returns</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Quick Actions - Premium Blue Theme */}
-          <div className="grid gap-8 md:grid-cols-3">
-            <Card className="premium-card-lg group hover:shadow-2xl transition-all duration-500">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-6">
-                  <div className="p-5 royal-accent rounded-2xl group-hover:scale-110 transition-all duration-300">
-                    <BarChart4 className="h-8 w-8 text-white" />
+            <Card className="premium-card-lg bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border-primary/20">
+              <CardContent className="pt-8 pb-8">
+                <div className="grid gap-8 md:grid-cols-3">
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
+                      <Target className="h-8 w-8 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-primary">30% Value</h3>
+                    <p className="text-muted-foreground">Undervalued businesses with strong catalysts for growth</p>
                   </div>
-                  <div>
-                    <CardTitle className="text-xl text-blue-600 group-hover:text-blue-500 transition-colors">
-                      Portfolio Management
-                    </CardTitle>
-                    <CardDescription className="mt-2 text-premium-muted">
-                      Track performance metrics and analyze investment returns
-                    </CardDescription>
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto">
+                      <TrendingUp className="h-8 w-8 text-emerald-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-emerald-600">30% Growth</h3>
+                    <p className="text-muted-foreground">Scalable business models with earnings momentum</p>
+                  </div>
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto">
+                      <Shield className="h-8 w-8 text-purple-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-purple-600">40% Quality</h3>
+                    <p className="text-muted-foreground">High ROCE companies with ethical management</p>
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full premium-button focus-ring" asChild>
-                  <Link href="/portfolio">View Performance Charts</Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full border-blue-300 hover:bg-blue-50 focus-ring hover-scale"
-                  asChild
-                >
-                  <Link href="/admin">Admin Panel</Link>
-                </Button>
               </CardContent>
             </Card>
+          </section>
 
-            <Card className="premium-card-lg group hover:shadow-2xl transition-all duration-500">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-6">
-                  <div className="p-5 teal-accent rounded-2xl group-hover:scale-110 transition-all duration-300">
-                    <Users className="h-8 w-8 text-white" />
+          {/* Services Section */}
+          <section className="space-y-12 animate-slide-up">
+            <div className="text-center space-y-4">
+              <h2 className="text-4xl md:text-5xl font-bold">Investment Services</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Comprehensive portfolio management solutions tailored to your financial goals
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-3">
+              <Card className="premium-card hover-lift">
+                <CardHeader className="pb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
+                    <Target className="h-6 w-6 text-primary" />
                   </div>
-                  <div>
-                    <CardTitle className="text-xl text-teal-700 dark:text-teal-300 group-hover:text-teal-600 transition-colors">
-                      PMS Services
-                    </CardTitle>
-                    <CardDescription className="mt-2 text-premium-muted">
-                      Professional portfolio management and client services
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full teal-accent shadow-md hover:shadow-lg focus-ring" asChild>
-                  <Link href="/admin">Client Management</Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full border-teal-300 hover:bg-teal-50 focus-ring hover-scale"
-                  asChild
-                >
-                  <Link href="/about">Learn More</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="premium-card-lg group hover:shadow-2xl transition-all duration-500">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-6">
-                  <div className="p-5 steel-accent rounded-2xl group-hover:scale-110 transition-all duration-300">
-                    <FileText className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl text-slate-600 group-hover:text-slate-500 transition-colors">
-                      Investment Insights
-                    </CardTitle>
-                    <CardDescription className="mt-2 text-premium-muted">
-                      Read analysis and insights on financial markets
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full steel-accent shadow-md hover:shadow-lg focus-ring" asChild>
-                  <Link href="/blog">Read Blog Posts</Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full border-slate-300 hover:bg-slate-50 focus-ring hover-scale"
-                  asChild
-                >
-                  <Link href="/admin">Write New Post</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Trust Indicators - Premium Blue Theme */}
-          <Card className="premium-card-lg bg-gradient-to-br from-blue-50/80 to-teal-50/80 dark:from-blue-950/20 dark:to-teal-950/20 border-blue-200/50 dark:border-blue-800/30">
-            <CardHeader className="pb-8">
-              <div className="flex items-center gap-4">
-                <div className="p-3 ocean-accent rounded-xl">
-                  <Shield className="h-7 w-7 text-white" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl text-blue-700 dark:text-blue-300">
-                    Professional Credentials & Trust
-                  </CardTitle>
-                  <CardDescription className="text-premium-muted mt-2">
-                    Building confidence through transparency and expertise
+                  <CardTitle className="text-xl">Portfolio Management</CardTitle>
+                  <CardDescription className="text-base">
+                    Active portfolio management with focus on risk-adjusted returns and long-term wealth creation
                   </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6 md:grid-cols-3">
-                <div className="flex items-center gap-4 p-6 bg-white/70 dark:bg-gray-800/70 rounded-xl hover-lift border border-blue-200/50 dark:border-blue-800/30">
-                  <div className="p-4 royal-accent rounded-xl">
-                    <Award className="h-7 w-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-blue-700 dark:text-blue-300 text-lg">CFA Level 2</h4>
-                    <p className="text-sm text-premium-muted">Cleared Professional</p>
-                  </div>
-                </div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                      Equity and debt allocation
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                      Risk assessment and management
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                      Regular portfolio rebalancing
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                      Performance monitoring
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-                <div className="flex items-center gap-4 p-6 bg-white/70 dark:bg-gray-800/70 rounded-xl hover-lift border border-teal-200/50 dark:border-teal-800/30">
-                  <div className="p-4 teal-accent rounded-xl">
-                    <BarChart4 className="h-7 w-7 text-white" />
+              <Card className="premium-card hover-lift">
+                <CardHeader className="pb-4">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4">
+                    <BarChart3 className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <div>
-                    <h4 className="font-bold text-teal-700 dark:text-teal-300 text-lg">Track Record</h4>
-                    <p className="text-sm text-premium-muted">28.9% CAGR Performance</p>
-                  </div>
-                </div>
+                  <CardTitle className="text-xl">Investment Analysis</CardTitle>
+                  <CardDescription className="text-base">
+                    In-depth market research and analysis to identify investment opportunities
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
+                      Fundamental analysis
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
+                      Market trend evaluation
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
+                      Sector rotation strategies
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
+                      Risk-return optimization
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-                <div className="flex items-center gap-4 p-6 bg-white/70 dark:bg-gray-800/70 rounded-xl hover-lift border border-indigo-200/50 dark:border-indigo-800/30">
-                  <div className="p-4 sky-accent rounded-xl">
-                    <Heart className="h-7 w-7 text-white" />
+              <Card className="premium-card hover-lift">
+                <CardHeader className="pb-4">
+                  <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4">
+                    <Shield className="h-6 w-6 text-purple-600" />
                   </div>
-                  <div>
-                    <h4 className="font-bold text-indigo-700 dark:text-indigo-300 text-lg">Transparency</h4>
-                    <p className="text-sm text-premium-muted">Open Portfolio Tracking</p>
+                  <CardTitle className="text-xl">Wealth Planning</CardTitle>
+                  <CardDescription className="text-base">
+                    Strategic financial planning to help you achieve your long-term financial objectives
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
+                      Goal-based investing
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
+                      Tax optimization strategies
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
+                      Retirement planning
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full"></div>
+                      Estate planning guidance
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Trust & Credentials */}
+          <section className="space-y-12 animate-slide-up">
+            <div className="text-center space-y-4">
+              <h2 className="text-4xl md:text-5xl font-bold">Why Choose Our Services</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Professional expertise backed by credentials and proven track record
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+              <Card className="premium-card text-center hover-lift">
+                <CardContent className="pt-8 pb-6">
+                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <Award className="h-8 w-8 text-primary" />
                   </div>
+                  <h3 className="font-semibold text-lg mb-3">CFA Level 2</h3>
+                  <p className="text-sm text-muted-foreground">Chartered Financial Analyst certification</p>
+                </CardContent>
+              </Card>
+              <Card className="premium-card text-center hover-lift">
+                <CardContent className="pt-8 pb-6">
+                  <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <TrendingUp className="h-8 w-8 text-emerald-600" />
+                  </div>
+                  <h3 className="font-semibold text-lg mb-3">Proven Track Record</h3>
+                  <p className="text-sm text-muted-foreground">Consistent outperformance vs benchmarks</p>
+                </CardContent>
+              </Card>
+              <Card className="premium-card text-center hover-lift">
+                <CardContent className="pt-8 pb-6">
+                  <div className="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <Shield className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <h3 className="font-semibold text-lg mb-3">Risk Management</h3>
+                  <p className="text-sm text-muted-foreground">Focus on downside protection</p>
+                </CardContent>
+              </Card>
+              <Card className="premium-card text-center hover-lift">
+                <CardContent className="pt-8 pb-6">
+                  <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <Globe className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <h3 className="font-semibold text-lg mb-3">Transparent Reporting</h3>
+                  <p className="text-sm text-muted-foreground">Regular updates and clear communication</p>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Call to Action */}
+          <section className="text-center space-y-8 animate-fade-in">
+            <Card className="premium-card-lg bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-primary/20">
+              <CardContent className="pt-12 pb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Investment Journey?</h2>
+                <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+                  Get in touch to discuss your investment goals and learn how our portfolio management services can help
+                  you achieve them.
+                </p>
+                <div className="flex gap-6 justify-center flex-wrap">
+                  <Button asChild size="lg" className="premium-button text-lg px-8 py-6">
+                    <Link href="/about">
+                      Get Started
+                      <ArrowRight className="ml-3 h-6 w-6" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="hover-lift text-lg px-8 py-6 border-primary/30 hover:bg-primary/5"
+                  >
+                    <Link href="/portfolio">View Portfolio Performance</Link>
+                  </Button>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </section>
         </div>
       </main>
     </div>
