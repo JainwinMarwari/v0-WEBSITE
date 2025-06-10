@@ -5,12 +5,15 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { Footer } from "@/components/footer"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 export const metadata = {
   title: "Jainwin Marwari - Portfolio Management Services",
   description:
-    "Professional portfolio management and investment insights by Jainwin Marwari, CFA Level 2 cleared finance professional at DistrictD",
+    "Professional portfolio management and investment insights by Jainwin Marwari, CFA Level 2 cleared finance professional specializing in PMS services",
+  keywords: "portfolio management, PMS, CFA, investment analysis, financial planning, wealth management",
+  authors: [{ name: "Jainwin Marwari" }],
+  viewport: "width=device-width, initial-scale=1",
     generator: 'v0.dev'
 }
 
@@ -20,9 +23,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange={false}
+          storageKey="jainwin-marwari-theme"
+        >
           <div className="min-h-screen flex flex-col">
             <div className="flex-1">{children}</div>
             <Footer />
