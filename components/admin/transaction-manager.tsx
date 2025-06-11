@@ -189,9 +189,9 @@ export function TransactionManager() {
                   <h3 className="font-medium text-purple-700 mb-2">Total Returns</h3>
                   <p className="text-2xl font-bold text-purple-800">₹{analysis.totalReturns.toLocaleString()}</p>
                 </div>
-                <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
-                  <h3 className="font-medium text-indigo-700 mb-2">Return %</h3>
-                  <p className="text-2xl font-bold text-indigo-800">+{analysis.returnPercentage.toFixed(1)}%</p>
+                <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                  <h3 className="font-medium text-orange-700 mb-2">Return %</h3>
+                  <p className="text-2xl font-bold text-orange-800">+{analysis.returnPercentage.toFixed(1)}%</p>
                 </div>
               </div>
 
