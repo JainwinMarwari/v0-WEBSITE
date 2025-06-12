@@ -113,41 +113,20 @@ interface DataStore {
   generatePortfolioAnalysis: () => void
 }
 
-// Enhanced stock data with company information
+// Stable price system with realistic stock data
 const stockDatabase = {
-  HDFC: {
-    name: "HDFC Bank Limited",
-    basePrice: 1752.25,
-    sector: "Financial Services",
-    marketCap: "Large Cap",
-  },
-  INFY: {
-    name: "Infosys Limited",
-    basePrice: 1450.75,
-    sector: "Information Technology",
-    marketCap: "Large Cap",
-  },
+  RELIANCE: { basePrice: 2450.8, name: "Reliance Industries Ltd", sector: "Oil & Gas", marketCap: "Large Cap" },
   TCS: {
-    name: "Tata Consultancy Services",
     basePrice: 3520.5,
+    name: "Tata Consultancy Services",
     sector: "Information Technology",
     marketCap: "Large Cap",
   },
-  RELIANCE: {
-    name: "Reliance Industries Limited",
-    basePrice: 2450.8,
-    sector: "Oil & Gas",
-    marketCap: "Large Cap",
-  },
-  BAJFINANCE: {
-    name: "Bajaj Finance Limited",
-    basePrice: 6850.4,
-    sector: "Financial Services",
-    marketCap: "Large Cap",
-  },
+  HDFC: { basePrice: 1752.25, name: "HDFC Bank Ltd", sector: "Financial Services", marketCap: "Large Cap" },
+  INFY: { basePrice: 1450.75, name: "Infosys Ltd", sector: "Information Technology", marketCap: "Large Cap" },
+  BAJFINANCE: { basePrice: 6850.4, name: "Bajaj Finance Ltd", sector: "Financial Services", marketCap: "Large Cap" },
 }
 
-// Stable price system with enhanced volatility
 const getStablePrice = (symbol: string, basePrice: number): number => {
   const today = new Date().toDateString()
   const lastUpdate = localStorage.getItem(`price_${symbol}_date`)
@@ -157,8 +136,8 @@ const getStablePrice = (symbol: string, basePrice: number): number => {
     if (savedPrice) return Number.parseFloat(savedPrice)
   }
 
-  // Generate new daily price with realistic volatility
-  const volatility = 0.02 // 2% daily volatility
+  // Generate new daily price (simulating market close)
+  const volatility = 0.015 // 1.5% daily volatility
   const randomChange = (Math.random() - 0.5) * 2 * volatility
   const newPrice = basePrice * (1 + randomChange)
 
@@ -170,8 +149,8 @@ const getStablePrice = (symbol: string, basePrice: number): number => {
 
 const fetchStockPrice = async (symbol: string): Promise<number> => {
   const stockInfo = stockDatabase[symbol as keyof typeof stockDatabase]
-  const basePrice = stockInfo?.basePrice || 100
-  return getStablePrice(symbol, basePrice)
+  if (!stockInfo) return 100
+  return getStablePrice(symbol, stockInfo.basePrice)
 }
 
 const calculateCAGR = (startValue: number, endValue: number, years: number): number => {
@@ -201,139 +180,152 @@ const calculateMaxDrawdown = (values: number[]): number => {
   return maxDrawdown * 100
 }
 
-// Sample portfolio data with realistic holdings
+// Sample portfolio data with realistic positions
 const samplePositions: Position[] = [
   {
-    symbol: "HDFC",
-    companyName: "HDFC Bank Limited",
+    symbol: "RELIANCE",
+    companyName: "Reliance Industries Ltd",
     shares: 150,
-    avgBuyPrice: 1650.0,
-    currentPrice: 1752.25,
-    firstBuyDate: "2023-06-15",
-    lastBuyDate: "2024-01-10",
-    totalValue: 262837,
-    totalCost: 247500,
-    return: 15337,
-    returnPercent: 6.2,
-    sector: "Financial Services",
-    marketCap: "Large Cap",
-    transactions: [],
-  },
-  {
-    symbol: "INFY",
-    companyName: "Infosys Limited",
-    shares: 200,
-    avgBuyPrice: 1380.0,
-    currentPrice: 1450.75,
-    firstBuyDate: "2023-07-20",
-    lastBuyDate: "2023-12-05",
-    totalValue: 290150,
-    totalCost: 276000,
-    return: 14150,
-    returnPercent: 5.1,
-    sector: "Information Technology",
+    avgBuyPrice: 2200.0,
+    currentPrice: getStablePrice("RELIANCE", 2450.8),
+    firstBuyDate: "2023-03-15",
+    lastBuyDate: "2023-08-20",
+    totalValue: 0,
+    totalCost: 330000,
+    return: 0,
+    returnPercent: 0,
+    sector: "Oil & Gas",
     marketCap: "Large Cap",
     transactions: [],
   },
   {
     symbol: "TCS",
     companyName: "Tata Consultancy Services",
-    shares: 75,
-    avgBuyPrice: 3400.0,
-    currentPrice: 3520.5,
-    firstBuyDate: "2023-08-10",
-    lastBuyDate: "2024-02-15",
-    totalValue: 264037,
-    totalCost: 255000,
-    return: 9037,
-    returnPercent: 3.5,
+    shares: 80,
+    avgBuyPrice: 3200.0,
+    currentPrice: getStablePrice("TCS", 3520.5),
+    firstBuyDate: "2023-04-10",
+    lastBuyDate: "2023-09-15",
+    totalValue: 0,
+    totalCost: 256000,
+    return: 0,
+    returnPercent: 0,
     sector: "Information Technology",
     marketCap: "Large Cap",
     transactions: [],
   },
   {
-    symbol: "RELIANCE",
-    companyName: "Reliance Industries Limited",
-    shares: 100,
-    avgBuyPrice: 2350.0,
-    currentPrice: 2450.8,
-    firstBuyDate: "2023-09-05",
-    lastBuyDate: "2024-01-20",
-    totalValue: 245080,
-    totalCost: 235000,
-    return: 10080,
-    returnPercent: 4.3,
-    sector: "Oil & Gas",
+    symbol: "HDFC",
+    companyName: "HDFC Bank Ltd",
+    shares: 200,
+    avgBuyPrice: 1500.0,
+    currentPrice: getStablePrice("HDFC", 1752.25),
+    firstBuyDate: "2023-02-20",
+    lastBuyDate: "2023-07-10",
+    totalValue: 0,
+    totalCost: 300000,
+    return: 0,
+    returnPercent: 0,
+    sector: "Financial Services",
+    marketCap: "Large Cap",
+    transactions: [],
+  },
+  {
+    symbol: "INFY",
+    companyName: "Infosys Ltd",
+    shares: 120,
+    avgBuyPrice: 1300.0,
+    currentPrice: getStablePrice("INFY", 1450.75),
+    firstBuyDate: "2023-05-05",
+    lastBuyDate: "2023-10-12",
+    totalValue: 0,
+    totalCost: 156000,
+    return: 0,
+    returnPercent: 0,
+    sector: "Information Technology",
     marketCap: "Large Cap",
     transactions: [],
   },
   {
     symbol: "BAJFINANCE",
-    companyName: "Bajaj Finance Limited",
+    companyName: "Bajaj Finance Ltd",
     shares: 25,
-    avgBuyPrice: 6500.0,
-    currentPrice: 6850.4,
-    firstBuyDate: "2023-10-12",
-    lastBuyDate: "2024-03-08",
-    totalValue: 171260,
-    totalCost: 162500,
-    return: 8760,
-    returnPercent: 5.4,
+    avgBuyPrice: 6200.0,
+    currentPrice: getStablePrice("BAJFINANCE", 6850.4),
+    firstBuyDate: "2023-06-18",
+    lastBuyDate: "2023-11-08",
+    totalValue: 0,
+    totalCost: 155000,
+    return: 0,
+    returnPercent: 0,
     sector: "Financial Services",
     marketCap: "Large Cap",
     transactions: [],
   },
 ]
 
+// Calculate initial values for sample positions
+samplePositions.forEach((position) => {
+  position.totalValue = position.shares * position.currentPrice
+  position.return = position.totalValue - position.totalCost
+  position.returnPercent = (position.return / position.totalCost) * 100
+})
+
 const initialPortfolioData: PortfolioData = {
-  totalValue: 1233364,
-  totalCost: 1176000,
-  totalReturn: 57364,
-  returnPercentage: 4.9,
+  totalValue: samplePositions.reduce((sum, pos) => sum + pos.totalValue, 0),
+  totalCost: samplePositions.reduce((sum, pos) => sum + pos.totalCost, 0),
+  totalReturn: samplePositions.reduce((sum, pos) => sum + pos.return, 0),
+  returnPercentage: 0,
   positions: samplePositions,
   transactions: [],
   analysis: null,
   performanceHistory: [
-    { date: "2023-06-01", totalValue: 1176000, totalReturn: 0, returnPercent: 0, benchmark: 0 },
-    { date: "2023-07-01", totalValue: 1188240, totalReturn: 12240, returnPercent: 1.04, benchmark: 0.8 },
-    { date: "2023-08-01", totalValue: 1205760, totalReturn: 29760, returnPercent: 2.53, benchmark: 2.1 },
-    { date: "2023-09-01", totalValue: 1194120, totalReturn: 18120, returnPercent: 1.54, benchmark: 1.2 },
-    { date: "2023-10-01", totalValue: 1217640, totalReturn: 41640, returnPercent: 3.54, benchmark: 2.8 },
-    { date: "2023-11-01", totalValue: 1229880, totalReturn: 53880, returnPercent: 4.58, benchmark: 3.9 },
-    { date: "2023-12-01", totalValue: 1241760, totalReturn: 65760, returnPercent: 5.59, benchmark: 4.2 },
-    { date: "2024-01-01", totalValue: 1225320, totalReturn: 49320, returnPercent: 4.19, benchmark: 3.5 },
-    { date: "2024-02-01", totalValue: 1247880, totalReturn: 71880, returnPercent: 6.11, benchmark: 4.8 },
-    { date: "2024-03-01", totalValue: 1233364, totalReturn: 57364, returnPercent: 4.88, benchmark: 4.1 },
+    { date: "2023-01-01", totalValue: 1197000, totalReturn: 0, returnPercent: 0, benchmark: 0 },
+    { date: "2023-03-01", totalValue: 1256850, totalReturn: 59850, returnPercent: 5.0, benchmark: 3.2 },
+    { date: "2023-06-01", totalValue: 1317692, totalReturn: 120692, returnPercent: 10.1, benchmark: 7.8 },
+    { date: "2023-09-01", totalValue: 1378534, totalReturn: 181534, returnPercent: 15.2, benchmark: 11.5 },
+    { date: "2023-12-01", totalValue: 1439376, totalReturn: 242376, returnPercent: 20.3, benchmark: 15.1 },
+    { date: "2024-01-01", totalValue: 1500218, totalReturn: 303218, returnPercent: 25.3, benchmark: 18.7 },
   ],
   performanceData: [
-    { month: "Jun '23", portfolio: 0.0, nifty: 0.0 },
-    { month: "Jul '23", portfolio: 1.04, nifty: 0.8 },
-    { month: "Aug '23", portfolio: 2.53, nifty: 2.1 },
-    { month: "Sep '23", portfolio: 1.54, nifty: 1.2 },
-    { month: "Oct '23", portfolio: 3.54, nifty: 2.8 },
-    { month: "Nov '23", portfolio: 4.58, nifty: 3.9 },
-    { month: "Dec '23", portfolio: 5.59, nifty: 4.2 },
-    { month: "Jan '24", portfolio: 4.19, nifty: 3.5 },
-    { month: "Feb '24", portfolio: 6.11, nifty: 4.8 },
-    { month: "Mar '24", portfolio: 4.88, nifty: 4.1 },
+    { month: "Jan", portfolio: 25.3, nifty: 18.7 },
+    { month: "Feb", portfolio: 23.8, nifty: 17.2 },
+    { month: "Mar", portfolio: 26.1, nifty: 19.5 },
+    { month: "Apr", portfolio: 24.7, nifty: 18.1 },
+    { month: "May", portfolio: 27.4, nifty: 20.8 },
+    { month: "Jun", portfolio: 25.9, nifty: 19.3 },
+    { month: "Jul", portfolio: 28.2, nifty: 21.6 },
+    { month: "Aug", portfolio: 26.8, nifty: 20.2 },
+    { month: "Sep", portfolio: 29.1, nifty: 22.4 },
+    { month: "Oct", portfolio: 27.6, nifty: 21.0 },
+    { month: "Nov", portfolio: 30.3, nifty: 23.7 },
+    { month: "Dec", portfolio: 28.9, nifty: 22.3 },
   ],
-  allocationData: [{ name: "Large Cap", value: 100 }],
+  allocationData: [
+    { name: "Large Cap", value: 85 },
+    { name: "Mid Cap", value: 15 },
+    { name: "Small Cap", value: 0 },
+  ],
   sectorData: [
-    { name: "Financial Services", value: 35.2 },
-    { name: "Information Technology", value: 44.9 },
-    { name: "Oil & Gas", value: 19.9 },
+    { name: "Information Technology", value: 35 },
+    { name: "Financial Services", value: 38 },
+    { name: "Oil & Gas", value: 27 },
   ],
   strategyData: [
     { name: "Value", value: 30 },
-    { name: "Growth", value: 30 },
-    { name: "Quality", value: 40 },
+    { name: "Growth", value: 35 },
+    { name: "Quality", value: 35 },
   ],
-  cagr: 6.8,
-  sharpeRatio: 1.45,
-  maxDrawdown: 4.2,
-  volatility: 12.8,
+  cagr: 28.9,
+  sharpeRatio: 1.85,
+  maxDrawdown: 6.2,
+  volatility: 14.3,
   lastPriceUpdate: new Date().toISOString(),
 }
+
+// Calculate initial return percentage
+initialPortfolioData.returnPercentage =
+  initialPortfolioData.totalCost > 0 ? (initialPortfolioData.totalReturn / initialPortfolioData.totalCost) * 100 : 0
 
 const initialBlogPosts: BlogPost[] = [
   {
@@ -341,51 +333,7 @@ const initialBlogPosts: BlogPost[] = [
     title: "Q4 2024 Portfolio Review: Navigating Market Volatility",
     excerpt:
       "A comprehensive analysis of my portfolio performance during the fourth quarter, including key lessons learned and strategy adjustments.",
-    content: `# Q4 2024 Portfolio Review: Navigating Market Volatility
-
-The fourth quarter of 2024 presented unique challenges and opportunities in the financial markets. In this comprehensive review, I'll break down my portfolio's performance, key decisions made, and lessons learned.
-
-## Portfolio Performance Overview
-
-During Q4 2024, my portfolio achieved a **4.9% return**, maintaining steady performance despite market volatility. This performance was driven by strategic positions in technology and financial services sectors.
-
-### Key Holdings Performance:
-- **HDFC Bank (HDFC)**: +6.2% - Benefited from strong quarterly results and improved asset quality
-- **Infosys (INFY)**: +5.1% - AI integration and digital transformation deals driving growth
-- **TCS**: +3.5% - Consistent performance with strong client additions
-- **Reliance Industries**: +4.3% - Diversified business model providing stability
-- **Bajaj Finance**: +5.4% - Strong growth in consumer lending segment
-
-## Strategic Decisions
-
-### 1. Sector Diversification
-Maintained balanced exposure across Financial Services (35.2%) and Information Technology (44.9%), with selective exposure to Oil & Gas (19.9%).
-
-### 2. Risk Management
-Implemented systematic risk management through:
-- Position sizing based on market cap and liquidity
-- Regular portfolio rebalancing
-- Focus on quality companies with strong fundamentals
-
-## Performance Metrics
-
-- **CAGR**: 6.8% (annualized)
-- **Sharpe Ratio**: 1.45 (excellent risk-adjusted returns)
-- **Maximum Drawdown**: 4.2% (controlled downside risk)
-- **Volatility**: 12.8% (moderate risk profile)
-
-## Looking Ahead
-
-Based on current market conditions and economic indicators, the portfolio is positioned for:
-- Continued focus on quality large-cap stocks
-- Selective opportunities in financial services
-- Technology sector exposure for long-term growth
-
-## Conclusion
-
-The portfolio's performance demonstrates the effectiveness of a disciplined, quality-focused investment approach. While maintaining conservative risk parameters, we've achieved consistent returns that outpace traditional benchmarks.
-
-*This analysis is for informational purposes only and does not constitute investment advice.*`,
+    content: "Full content here...",
     publishedAt: "2024-01-15",
     views: 1250,
     published: true,
@@ -452,7 +400,7 @@ export const useDataStore = create<DataStore>()(
             const newPrice = await fetchStockPrice(position.symbol)
             const newTotalValue = newPrice * position.shares
             const newReturn = newTotalValue - position.totalCost
-            const newReturnPercent = position.totalCost > 0 ? (newReturn / position.totalCost) * 100 : 0
+            const newReturnPercent = (newReturn / position.totalCost) * 100
 
             return {
               ...position,
@@ -467,7 +415,7 @@ export const useDataStore = create<DataStore>()(
         const newTotalValue = updatedPositions.reduce((sum, pos) => sum + pos.totalValue, 0)
         const newTotalCost = updatedPositions.reduce((sum, pos) => sum + pos.totalCost, 0)
         const newTotalReturn = newTotalValue - newTotalCost
-        const newReturnPercentage = newTotalCost > 0 ? (newTotalReturn / newTotalCost) * 100 : 0
+        const newReturnPercentage = (newTotalReturn / newTotalCost) * 100
 
         set((state) => ({
           portfolioData: {
@@ -546,7 +494,7 @@ export const useDataStore = create<DataStore>()(
           totalValue: portfolioData.totalValue,
           totalReturn: portfolioData.totalReturn,
           returnPercent: portfolioData.returnPercentage,
-          benchmark: portfolioData.returnPercentage * 0.85,
+          benchmark: portfolioData.returnPercentage * 0.8,
         }
 
         set((state) => ({
