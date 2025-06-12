@@ -4,78 +4,26 @@
 
 @layer base {
   :root {
-    /* Light theme - Blue-focused premium design */
-    --background: 248 250 252; /* Very soft blue-gray */
-    --foreground: 15 23 42; /* Deep slate for readability */
-    --card: 255 255 255; /* Pure white cards */
-    --card-foreground: 15 23 42; /* Deep slate */
-    --popover: 255 255 255; /* White */
-    --popover-foreground: 15 23 42; /* Deep slate */
-    --primary: 37 99 235; /* Rich blue */
-    --primary-foreground: 255 255 255; /* White */
-    --secondary: 241 245 249; /* Very light blue-gray */
-    --secondary-foreground: 51 65 85; /* Medium slate */
-    --muted: 248 250 252; /* Softer muted background */
-    --muted-foreground: 100 116 139; /* Muted text */
-    --accent: 59 130 246; /* Vibrant blue */
-    --accent-foreground: 255 255 255; /* White */
-    --destructive: 220 38 38; /* Deep red */
-    --destructive-foreground: 255 255 255; /* White */
-    --border: 226 232 240; /* Light border */
-    --input: 241 245 249; /* Light input background */
-    --ring: 37 99 235; /* Focus ring color */
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 47.4% 11.2%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
     --radius: 0.75rem;
-
-    /* Blue-themed premium colors */
-    --ocean-blue: 37 99 235; /* Primary ocean blue */
-    --ocean-blue-light: 239 246 255; /* Light ocean blue */
-    --sky-blue: 59 130 246; /* Bright sky blue */
-    --sky-blue-light: 219 234 254; /* Light sky blue */
-    --navy-blue: 30 58 138; /* Deep navy */
-    --navy-blue-light: 191 219 254; /* Light navy */
-    --steel-blue: 71 85 105; /* Steel blue-gray */
-    --steel-blue-light: 241 245 249; /* Light steel */
-    --cyan-blue: 6 182 212; /* Fresh cyan */
-    --cyan-blue-light: 236 254 255; /* Light cyan */
-    --indigo-blue: 79 70 229; /* Rich indigo */
-    --indigo-blue-light: 238 242 255; /* Light indigo */
-  }
-
-  .dark {
-    /* Dark theme - Blue-focused sophisticated design */
-    --background: 15 23 42; /* Deep navy */
-    --foreground: 248 250 252; /* Soft white */
-    --card: 30 41 59; /* Rich card background */
-    --card-foreground: 248 250 252; /* Soft white */
-    --popover: 30 41 59; /* Rich background */
-    --popover-foreground: 248 250 252; /* Soft white */
-    --primary: 96 165 250; /* Bright blue */
-    --primary-foreground: 15 23 42; /* Dark text */
-    --secondary: 51 65 85; /* Medium slate */
-    --secondary-foreground: 226 232 240; /* Light text */
-    --muted: 51 65 85; /* Muted background */
-    --muted-foreground: 148 163 184; /* Muted text */
-    --accent: 147 197 253; /* Light blue */
-    --accent-foreground: 15 23 42; /* Dark text */
-    --destructive: 248 113 113; /* Soft red */
-    --destructive-foreground: 15 23 42; /* Dark text */
-    --border: 51 65 85; /* Medium border */
-    --input: 51 65 85; /* Input background */
-    --ring: 96 165 250; /* Focus ring */
-
-    /* Dark mode blue colors */
-    --ocean-blue: 96 165 250; /* Lighter ocean blue */
-    --ocean-blue-light: 30 58 138; /* Dark ocean blue */
-    --sky-blue: 147 197 253; /* Light sky blue */
-    --sky-blue-light: 29 78 216; /* Dark sky blue */
-    --navy-blue: 191 219 254; /* Light navy for dark mode */
-    --navy-blue-light: 30 58 138; /* Dark navy */
-    --steel-blue: 148 163 184; /* Light steel */
-    --steel-blue-light: 51 65 85; /* Dark steel */
-    --cyan-blue: 103 232 249; /* Bright cyan */
-    --cyan-blue-light: 8 145 178; /* Dark cyan */
-    --indigo-blue: 165 180 252; /* Light indigo */
-    --indigo-blue-light: 67 56 202; /* Dark indigo */
   }
 }
 
@@ -83,245 +31,27 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    transition: background-color 0.4s ease, color 0.4s ease;
-    line-height: 1.6;
-  }
-
-  /* Blue-themed background gradients */
-  .light {
-    background: linear-gradient(
-      135deg,
-      rgb(248, 250, 252) 0%,
-      rgb(241, 245, 249) 25%,
-      rgb(219, 234, 254) 75%,
-      rgb(191, 219, 254) 100%
-    );
-  }
-
-  .dark {
-    background: linear-gradient(
-      135deg,
-      rgb(15, 23, 42) 0%,
-      rgb(30, 41, 59) 25%,
-      rgb(51, 65, 85) 75%,
-      rgb(30, 58, 138) 100%
-    );
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    min-height: 100vh;
   }
 }
 
-/* Premium scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-  border-radius: 3px;
+  background: #2d3748;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.5);
-  border-radius: 3px;
-  transition: all 0.3s ease;
+  background: #4299e1;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.8);
-}
-
-/* Blue-themed component styles */
-@layer components {
-  .premium-card {
-    @apply bg-card/95 backdrop-blur-sm border border-border/60 rounded-xl shadow-sm transition-all duration-500 ease-out;
-  }
-
-  .premium-card:hover {
-    @apply shadow-lg border-border/80;
-    transform: translateY(-2px) scale(1.005);
-    box-shadow: 0 10px 25px hsl(var(--primary) / 0.1);
-  }
-
-  .premium-card-lg {
-    @apply bg-card/95 backdrop-blur-sm border border-border/60 rounded-2xl shadow-md transition-all duration-500 ease-out;
-  }
-
-  .premium-card-lg:hover {
-    @apply shadow-xl border-border/80;
-    transform: translateY(-1px) scale(1.002);
-    box-shadow: 0 20px 40px hsl(var(--primary) / 0.15);
-  }
-
-  .glass-effect {
-    @apply bg-card/80 backdrop-blur-md border border-border/40 shadow-sm;
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--ocean-blue)), hsl(var(--sky-blue)), hsl(var(--indigo-blue)));
-    @apply bg-clip-text text-transparent;
-  }
-
-  .premium-button {
-    @apply relative overflow-hidden rounded-lg px-6 py-3 font-medium transition-all duration-300 ease-out;
-    background: linear-gradient(135deg, hsl(var(--ocean-blue)), hsl(var(--sky-blue)));
-    @apply text-white shadow-md;
-  }
-
-  .premium-button:hover {
-    @apply shadow-lg;
-    transform: translateY(-1px) scale(1.02);
-    background: linear-gradient(135deg, hsl(var(--ocean-blue) / 0.9), hsl(var(--sky-blue) / 0.9));
-    box-shadow: 0 10px 25px hsl(var(--primary) / 0.3);
-  }
-
-  .premium-button:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .ocean-accent {
-    background: linear-gradient(135deg, hsl(var(--ocean-blue)), hsl(var(--ocean-blue-light)));
-    @apply text-white;
-  }
-
-  .sky-accent {
-    background: linear-gradient(135deg, hsl(var(--sky-blue)), hsl(var(--sky-blue-light)));
-    @apply text-white;
-  }
-
-  .navy-accent {
-    background: linear-gradient(135deg, hsl(var(--navy-blue)), hsl(var(--navy-blue-light)));
-    @apply text-white;
-  }
-
-  .steel-accent {
-    background: linear-gradient(135deg, hsl(var(--steel-blue)), hsl(var(--steel-blue-light)));
-    @apply text-white;
-  }
-
-  .cyan-accent {
-    background: linear-gradient(135deg, hsl(var(--cyan-blue)), hsl(var(--cyan-blue-light)));
-    @apply text-white;
-  }
-
-  .indigo-accent {
-    background: linear-gradient(135deg, hsl(var(--indigo-blue)), hsl(var(--indigo-blue-light)));
-    @apply text-white;
-  }
-
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background transition-all duration-200;
-  }
-
-  .hover-lift {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-2px);
-  }
-
-  .hover-glow {
-    @apply transition-all duration-300;
-  }
-
-  .hover-glow:hover {
-    box-shadow: 0 0 25px hsl(var(--primary) / 0.3);
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.5s ease-out forwards;
-  }
-}
-
-/* Keyframe animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.5);
-  }
-}
-
-.animate-glow {
-  animation: glow 3s ease-in-out infinite;
-}
-
-/* Premium spacing and typography */
-.section-spacing {
-  @apply py-12 md:py-16 lg:py-20;
-}
-
-.content-spacing {
-  @apply space-y-8 md:space-y-12;
-}
-
-.text-premium {
-  @apply text-foreground/90 leading-relaxed;
-}
-
-.text-premium-muted {
-  @apply text-muted-foreground/80 leading-relaxed;
-}
-
-/* Enhanced mobile responsiveness */
-@media (max-width: 768px) {
-  .premium-card,
-  .premium-card-lg {
-    @apply mx-2;
-  }
-
-  .premium-button {
-    @apply px-4 py-2 text-sm;
-  }
+  background: #2c5282;
 }

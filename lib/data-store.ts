@@ -3,32 +3,16 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-interface Transaction {
-  id: string
-  date: string
-  symbol: string
-  type: "BUY" | "SELL"
-  quantity: number
-  price: number
-  amount: number
-  fees?: number
-}
-
 interface Position {
   symbol: string
-  companyName: string
   shares: number
-  avgBuyPrice: number
+  buyPrice: number
   currentPrice: number
-  firstBuyDate: string
-  lastBuyDate: string
+  buyDate: string
   totalValue: number
   totalCost: number
   return: number
   returnPercent: number
-  sector: string
-  marketCap: string
-  transactions: Transaction[]
 }
 
 interface BlogPost {
@@ -60,29 +44,12 @@ interface Client {
   status: "Active" | "Pending" | "Inactive"
 }
 
-interface PortfolioAnalysis {
-  totalInvested: number
-  currentValue: number
-  totalReturns: number
-  returnPercentage: number
-  realizedGains: number
-  unrealizedGains: number
-  totalDividends: number
-  holdingPeriod: number
-  topPerformers: Position[]
-  worstPerformers: Position[]
-  sectorAllocation: Array<{ sector: string; value: number; percentage: number }>
-  monthlyReturns: Array<{ month: string; returns: number }>
-}
-
 interface PortfolioData {
   totalValue: number
   totalCost: number
   totalReturn: number
   returnPercentage: number
   positions: Position[]
-  transactions: Transaction[]
-  analysis: PortfolioAnalysis | null
   performanceHistory: PerformanceRecord[]
   performanceData: Array<{ month: string; portfolio: number; nifty: number }>
   allocationData: Array<{ name: string; value: number }>
@@ -92,7 +59,6 @@ interface PortfolioData {
   sharpeRatio: number
   maxDrawdown: number
   volatility: number
-  lastPriceUpdate: string
 }
 
 interface DataStore {
@@ -109,48 +75,35 @@ interface DataStore {
   updateClient: (id: string, client: Partial<Client>) => void
   calculatePerformanceMetrics: () => void
   addPerformanceRecord: () => void
-  uploadTransactions: (transactions: Transaction[]) => void
-  generatePortfolioAnalysis: () => void
 }
 
-// Stable price system with realistic stock data
-const stockDatabase = {
-  RELIANCE: { basePrice: 2450.8, name: "Reliance Industries Ltd", sector: "Oil & Gas", marketCap: "Large Cap" },
-  TCS: {
-    basePrice: 3520.5,
-    name: "Tata Consultancy Services",
-    sector: "Information Technology",
-    marketCap: "Large Cap",
-  },
-  HDFC: { basePrice: 1752.25, name: "HDFC Bank Ltd", sector: "Financial Services", marketCap: "Large Cap" },
-  INFY: { basePrice: 1450.75, name: "Infosys Ltd", sector: "Information Technology", marketCap: "Large Cap" },
-  BAJFINANCE: { basePrice: 6850.4, name: "Bajaj Finance Ltd", sector: "Financial Services", marketCap: "Large Cap" },
-}
-
-const getStablePrice = (symbol: string, basePrice: number): number => {
-  const today = new Date().toDateString()
-  const lastUpdate = localStorage.getItem(`price_${symbol}_date`)
-
-  if (lastUpdate === today) {
-    const savedPrice = localStorage.getItem(`price_${symbol}`)
-    if (savedPrice) return Number.parseFloat(savedPrice)
-  }
-
-  // Generate new daily price (simulating market close)
-  const volatility = 0.015 // 1.5% daily volatility
-  const randomChange = (Math.random() - 0.5) * 2 * volatility
-  const newPrice = basePrice * (1 + randomChange)
-
-  localStorage.setItem(`price_${symbol}`, newPrice.toFixed(2))
-  localStorage.setItem(`price_${symbol}_date`, today)
-
-  return Number(newPrice.toFixed(2))
-}
-
+// Yahoo Finance API integration (simplified for demo)
 const fetchStockPrice = async (symbol: string): Promise<number> => {
-  const stockInfo = stockDatabase[symbol as keyof typeof stockDatabase]
-  if (!stockInfo) return 100
-  return getStablePrice(symbol, stockInfo.basePrice)
+  try {
+    // In a real implementation, you would use a proper API key and endpoint
+    // For demo purposes, we'll simulate API calls with realistic price movements
+    const basePrice =
+      {
+        HDFC: 1752.25,
+        INFY: 1450.75,
+        TCS: 3520.5,
+        RELIANCE: 2450.8,
+        BAJAJ: 1120.4,
+        ZOMATO: 175.6,
+        NYKAA: 145.8,
+        ADANI: 2850.3,
+      }[symbol] || 100
+
+    // Simulate realistic price movement
+    const volatility = 0.02 // 2% daily volatility
+    const randomChange = (Math.random() - 0.5) * 2 * volatility
+    const newPrice = basePrice * (1 + randomChange)
+
+    return Number(newPrice.toFixed(2))
+  } catch (error) {
+    console.error(`Error fetching price for ${symbol}:`, error)
+    return 0
+  }
 }
 
 const calculateCAGR = (startValue: number, endValue: number, years: number): number => {
@@ -180,152 +133,100 @@ const calculateMaxDrawdown = (values: number[]): number => {
   return maxDrawdown * 100
 }
 
-// Sample portfolio data with realistic positions
-const samplePositions: Position[] = [
-  {
-    symbol: "RELIANCE",
-    companyName: "Reliance Industries Ltd",
-    shares: 150,
-    avgBuyPrice: 2200.0,
-    currentPrice: getStablePrice("RELIANCE", 2450.8),
-    firstBuyDate: "2023-03-15",
-    lastBuyDate: "2023-08-20",
-    totalValue: 0,
-    totalCost: 330000,
-    return: 0,
-    returnPercent: 0,
-    sector: "Oil & Gas",
-    marketCap: "Large Cap",
-    transactions: [],
-  },
-  {
-    symbol: "TCS",
-    companyName: "Tata Consultancy Services",
-    shares: 80,
-    avgBuyPrice: 3200.0,
-    currentPrice: getStablePrice("TCS", 3520.5),
-    firstBuyDate: "2023-04-10",
-    lastBuyDate: "2023-09-15",
-    totalValue: 0,
-    totalCost: 256000,
-    return: 0,
-    returnPercent: 0,
-    sector: "Information Technology",
-    marketCap: "Large Cap",
-    transactions: [],
-  },
-  {
-    symbol: "HDFC",
-    companyName: "HDFC Bank Ltd",
-    shares: 200,
-    avgBuyPrice: 1500.0,
-    currentPrice: getStablePrice("HDFC", 1752.25),
-    firstBuyDate: "2023-02-20",
-    lastBuyDate: "2023-07-10",
-    totalValue: 0,
-    totalCost: 300000,
-    return: 0,
-    returnPercent: 0,
-    sector: "Financial Services",
-    marketCap: "Large Cap",
-    transactions: [],
-  },
-  {
-    symbol: "INFY",
-    companyName: "Infosys Ltd",
-    shares: 120,
-    avgBuyPrice: 1300.0,
-    currentPrice: getStablePrice("INFY", 1450.75),
-    firstBuyDate: "2023-05-05",
-    lastBuyDate: "2023-10-12",
-    totalValue: 0,
-    totalCost: 156000,
-    return: 0,
-    returnPercent: 0,
-    sector: "Information Technology",
-    marketCap: "Large Cap",
-    transactions: [],
-  },
-  {
-    symbol: "BAJFINANCE",
-    companyName: "Bajaj Finance Ltd",
-    shares: 25,
-    avgBuyPrice: 6200.0,
-    currentPrice: getStablePrice("BAJFINANCE", 6850.4),
-    firstBuyDate: "2023-06-18",
-    lastBuyDate: "2023-11-08",
-    totalValue: 0,
-    totalCost: 155000,
-    return: 0,
-    returnPercent: 0,
-    sector: "Financial Services",
-    marketCap: "Large Cap",
-    transactions: [],
-  },
-]
-
-// Calculate initial values for sample positions
-samplePositions.forEach((position) => {
-  position.totalValue = position.shares * position.currentPrice
-  position.return = position.totalValue - position.totalCost
-  position.returnPercent = (position.return / position.totalCost) * 100
-})
-
 const initialPortfolioData: PortfolioData = {
-  totalValue: samplePositions.reduce((sum, pos) => sum + pos.totalValue, 0),
-  totalCost: samplePositions.reduce((sum, pos) => sum + pos.totalCost, 0),
-  totalReturn: samplePositions.reduce((sum, pos) => sum + pos.return, 0),
-  returnPercentage: 0,
-  positions: samplePositions,
-  transactions: [],
-  analysis: null,
+  totalValue: 4523189,
+  totalCost: 3699733,
+  totalReturn: 823456,
+  returnPercentage: 22.3,
+  positions: [
+    {
+      symbol: "HDFC",
+      shares: 100,
+      buyPrice: 1500.0,
+      currentPrice: 1752.25,
+      buyDate: "2023-06-15",
+      totalValue: 175225,
+      totalCost: 150000,
+      return: 25225,
+      returnPercent: 16.8,
+    },
+    {
+      symbol: "INFY",
+      shares: 200,
+      buyPrice: 1240.0,
+      currentPrice: 1450.75,
+      buyDate: "2023-07-20",
+      totalValue: 290150,
+      totalCost: 248000,
+      return: 42150,
+      returnPercent: 17.0,
+    },
+    {
+      symbol: "TCS",
+      shares: 50,
+      buyPrice: 3200.0,
+      currentPrice: 3520.5,
+      buyDate: "2023-08-10",
+      totalValue: 176025,
+      totalCost: 160000,
+      return: 16025,
+      returnPercent: 10.0,
+    },
+    {
+      symbol: "RELIANCE",
+      shares: 75,
+      buyPrice: 2200.0,
+      currentPrice: 2450.8,
+      buyDate: "2023-09-05",
+      totalValue: 183810,
+      totalCost: 165000,
+      return: 18810,
+      returnPercent: 11.4,
+    },
+  ],
   performanceHistory: [
-    { date: "2023-01-01", totalValue: 1197000, totalReturn: 0, returnPercent: 0, benchmark: 0 },
-    { date: "2023-03-01", totalValue: 1256850, totalReturn: 59850, returnPercent: 5.0, benchmark: 3.2 },
-    { date: "2023-06-01", totalValue: 1317692, totalReturn: 120692, returnPercent: 10.1, benchmark: 7.8 },
-    { date: "2023-09-01", totalValue: 1378534, totalReturn: 181534, returnPercent: 15.2, benchmark: 11.5 },
-    { date: "2023-12-01", totalValue: 1439376, totalReturn: 242376, returnPercent: 20.3, benchmark: 15.1 },
-    { date: "2024-01-01", totalValue: 1500218, totalReturn: 303218, returnPercent: 25.3, benchmark: 18.7 },
+    { date: "2024-01-01", totalValue: 3699733, totalReturn: 0, returnPercent: 0, benchmark: 0 },
+    { date: "2024-06-01", totalValue: 4100000, totalReturn: 400267, returnPercent: 10.8, benchmark: 8.5 },
+    { date: "2024-12-01", totalValue: 4523189, totalReturn: 823456, returnPercent: 22.3, benchmark: 16.5 },
   ],
   performanceData: [
-    { month: "Jan", portfolio: 25.3, nifty: 18.7 },
-    { month: "Feb", portfolio: 23.8, nifty: 17.2 },
-    { month: "Mar", portfolio: 26.1, nifty: 19.5 },
-    { month: "Apr", portfolio: 24.7, nifty: 18.1 },
-    { month: "May", portfolio: 27.4, nifty: 20.8 },
-    { month: "Jun", portfolio: 25.9, nifty: 19.3 },
-    { month: "Jul", portfolio: 28.2, nifty: 21.6 },
-    { month: "Aug", portfolio: 26.8, nifty: 20.2 },
-    { month: "Sep", portfolio: 29.1, nifty: 22.4 },
-    { month: "Oct", portfolio: 27.6, nifty: 21.0 },
-    { month: "Nov", portfolio: 30.3, nifty: 23.7 },
-    { month: "Dec", portfolio: 28.9, nifty: 22.3 },
+    { month: "Jan", portfolio: 12.5, nifty: 8.2 },
+    { month: "Feb", portfolio: 10.8, nifty: 9.5 },
+    { month: "Mar", portfolio: 15.2, nifty: 11.3 },
+    { month: "Apr", portfolio: 14.1, nifty: 10.8 },
+    { month: "May", portfolio: 18.5, nifty: 12.4 },
+    { month: "Jun", portfolio: 17.2, nifty: 13.1 },
+    { month: "Jul", portfolio: 19.8, nifty: 14.5 },
+    { month: "Aug", portfolio: 21.5, nifty: 15.2 },
+    { month: "Sep", portfolio: 20.3, nifty: 14.8 },
+    { month: "Oct", portfolio: 22.8, nifty: 16.1 },
+    { month: "Nov", portfolio: 21.9, nifty: 15.7 },
+    { month: "Dec", portfolio: 22.3, nifty: 16.5 },
   ],
   allocationData: [
-    { name: "Large Cap", value: 85 },
-    { name: "Mid Cap", value: 15 },
-    { name: "Small Cap", value: 0 },
+    { name: "Large Cap", value: 30 },
+    { name: "Mid Cap", value: 40 },
+    { name: "Small Cap", value: 20 },
+    { name: "Micro Cap", value: 10 },
   ],
   sectorData: [
-    { name: "Information Technology", value: 35 },
-    { name: "Financial Services", value: 38 },
-    { name: "Oil & Gas", value: 27 },
+    { name: "IT", value: 25 },
+    { name: "Financial", value: 20 },
+    { name: "Consumer", value: 15 },
+    { name: "Healthcare", value: 15 },
+    { name: "Manufacturing", value: 10 },
+    { name: "Others", value: 15 },
   ],
   strategyData: [
     { name: "Value", value: 30 },
-    { name: "Growth", value: 35 },
-    { name: "Quality", value: 35 },
+    { name: "Growth", value: 30 },
+    { name: "Quality", value: 40 },
   ],
-  cagr: 28.9,
-  sharpeRatio: 1.85,
-  maxDrawdown: 6.2,
-  volatility: 14.3,
-  lastPriceUpdate: new Date().toISOString(),
+  cagr: 22.3,
+  sharpeRatio: 1.45,
+  maxDrawdown: 8.2,
+  volatility: 15.6,
 }
-
-// Calculate initial return percentage
-initialPortfolioData.returnPercentage =
-  initialPortfolioData.totalCost > 0 ? (initialPortfolioData.totalReturn / initialPortfolioData.totalCost) * 100 : 0
 
 const initialBlogPosts: BlogPost[] = [
   {
@@ -349,6 +250,16 @@ const initialClients: Client[] = [
     investmentAmount: 5000000,
     riskProfile: "Moderate",
     onboardingDate: "2024-01-15",
+    status: "Active",
+  },
+  {
+    id: "client-002",
+    name: "Priya Sharma",
+    email: "priya.sharma@email.com",
+    phone: "+91 9876543211",
+    investmentAmount: 2500000,
+    riskProfile: "Conservative",
+    onboardingDate: "2024-02-20",
     status: "Active",
   },
 ]
@@ -425,10 +336,10 @@ export const useDataStore = create<DataStore>()(
             totalCost: newTotalCost,
             totalReturn: newTotalReturn,
             returnPercentage: Number(newReturnPercentage.toFixed(1)),
-            lastPriceUpdate: new Date().toISOString(),
           },
         }))
 
+        // Recalculate performance metrics
         get().calculatePerformanceMetrics()
       },
       addClient: (client) =>
@@ -485,6 +396,7 @@ export const useDataStore = create<DataStore>()(
         const { portfolioData } = get()
         const today = new Date().toISOString().split("T")[0]
 
+        // Don't add duplicate records for the same date
         if (portfolioData.performanceHistory.some((record) => record.date === today)) {
           return
         }
@@ -494,7 +406,7 @@ export const useDataStore = create<DataStore>()(
           totalValue: portfolioData.totalValue,
           totalReturn: portfolioData.totalReturn,
           returnPercent: portfolioData.returnPercentage,
-          benchmark: portfolioData.returnPercentage * 0.8,
+          benchmark: portfolioData.returnPercentage * 0.8, // Simulated benchmark
         }
 
         set((state) => ({
@@ -505,20 +417,6 @@ export const useDataStore = create<DataStore>()(
         }))
 
         get().calculatePerformanceMetrics()
-      },
-      uploadTransactions: (transactions) => {
-        // Implementation for transaction upload
-        set((state) => ({
-          portfolioData: {
-            ...state.portfolioData,
-            transactions,
-          },
-        }))
-      },
-      generatePortfolioAnalysis: () => {
-        // Implementation for portfolio analysis
-        const { positions } = get().portfolioData
-        // Generate analysis based on positions
       },
     }),
     {
